@@ -5,6 +5,10 @@ const sequelize = require('./config/database');
 const { initializeWhatsApp } = require('./controllers/whatsappController');
 require('dotenv').config();
 
+// Import models to ensure they are registered
+require('./models/User');
+require('./models/MessageJob');
+
 const app = express();
 
 // Setup multer untuk handle form-data (global)
