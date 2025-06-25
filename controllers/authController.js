@@ -29,13 +29,6 @@ const login = async (req, res) => {
     if (!user) {
       return res.status(401).json({ message: 'Invalid credentials' });
     }
-    
-    // Debug: cek password hash di database
-    console.log('🔍 Debug Info:');
-    console.log('Input password:', password);
-    console.log('Stored hash:', user.password);
-    console.log('Hash starts with $2a$10$:', user.password.startsWith('$2a$10$'));
-    
     // Coba manual bcrypt compare langsung
     const manualCompare = await bcrypt.compare(password, user.password);
     console.log('Manual bcrypt compare result:', manualCompare);
