@@ -5,7 +5,6 @@ whatsapp-session/
 .DS_Store
 Thumbs.db
 scripts/
-seeders/
 .wwebpack-cache/
 .wwebjs_cache/
 database/seeder.sql
