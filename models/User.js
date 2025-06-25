@@ -55,4 +55,21 @@ User.prototype.comparePassword = async function(password) {
   }
 };
 
+// Alias method untuk checkPassword (digunakan di seeder)
+User.prototype.checkPassword = async function(password) {
+  return this.comparePassword(password);
+};
+
+// Static method untuk mencari user berdasarkan email
+User.findByEmail = async function(email) {
+  try {
+    return await this.findOne({
+      where: { email: email }
+    });
+  } catch (error) {
+    console.error('❌ Error in findByEmail:', error);
+    return null;
+  }
+};
+
 module.exports = User;

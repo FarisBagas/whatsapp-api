@@ -252,7 +252,7 @@ const sendMessage = async (req, res) => {
     console.log('📱 Original number:', number);
     console.log('📱 Formatted number:', formattedNumber);
     console.log('📱 Chat ID:', chatId);
-    console.log('📱 Message:', message);
+    console.log('📱 Message:', message.substring(0, 50));
     
     // Validasi nomor dengan WhatsApp sebelum mengirim
     try {
