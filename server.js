@@ -10,8 +10,50 @@ const app = express();
 // Setup multer untuk handle form-data (global)
 const upload = multer();
 
+// CORS Configuration - Only allow specific origins
+const corsOptions = {
+  origin: function (origin, callback) {
+    // Allow requests with no origin (like mobile apps or curl requests)
+    if (!origin) return callback(null, true);
+    
+    // Get allowed origins from environment variable
+    const allowedOrigins = process.env.ALLOWED_ORIGINS 
+      ? process.env.ALLOWED_ORIGINS.split(',').map(origin => origin.trim())
+      : [
+          'https://siakober.ghaistech.id',
+          'http://localhost:3000',
+          'http://localhost:3001', 
+          'http://localhost:8080',
+          'http://127.0.0.1:3000',
+          'http://127.0.0.1:3001',
+          'http://127.0.0.1:8080'
+        ];
+    
+    if (allowedOrigins.indexOf(origin) !== -1) {
+      console.log(`✅ CORS allowed request from origin: ${origin}`);
+      callback(null, true);
+    } else {
+      console.log(`❌ CORS blocked request from origin: ${origin}`);
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true, // Allow cookies and authorization headers
+  optionsSuccessStatus: 200, // For legacy browser support
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
+};
+
 // Middleware - PENTING: Order middleware sangat penting!
-app.use(cors());
+app.use(cors(corsOptions));
+
+// CORS Logging middleware
+app.use((req, res, next) => {
+    const origin = req.get('Origin');
+    if (origin) {
+        console.log(`🌐 Request from origin: ${origin}`);
+    }
+    next();
+});
 
 // Body parser middleware - support semua format
 app.use(express.json({ limit: '10mb' }));
